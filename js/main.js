@@ -5,6 +5,5 @@ function getRandomIntFromRange(minNumber, maxNumber) {
     return Math.min(Math.max(Math.round(Math.random() * maxNumber), minNumber), maxNumber);
 }
 
-function checkStringLength(stringToCheck, maxStringLength) {
-    return stringToCheck.length <= maxStringLength;
-}
+const checkStringLength = (stringToCheck, maxStringLength) => stringToCheck.length <= maxStringLength;
+
