@@ -29,7 +29,7 @@ function createBookingObject() {
     }
 
     bookingObject.price = getRandomIntFromRange(0, BOOKING_MAX_PRICE);
-    bookingObject.type = typeArray[getRandomIntFromRange(0, typeArray.length)];
+    bookingObject.type = typeArray[getRandomIntFromRange(0, typeArray.length - 1)];
     bookingObject.rooms = getRandomIntFromRange(1, BOOKING_MAX_ROOMS);
     bookingObject.guests = bookingObject.rooms * getRandomIntFromRange(1, BOOKING_MAX_GUESTS_PER_ROOM);
     bookingObject.checkIn = checkInArray[getRandomIntFromRange(0, checkInArray.length - 1)];
@@ -45,7 +45,7 @@ function createBookingObject() {
 
     bookingObject.offer = {
         title: 'Название объекта для аренды',
-        adress: bookingObject.location.lat + ', ' + bookingObject.location.lng,
+        address: bookingObject.location.lat + ', ' + bookingObject.location.lng,
     }
     return bookingObject;
 }
@@ -55,3 +55,98 @@ const bookingArray = Array.from({length: BOOKING_ARRAY_QUANTITY}, createBookingO
 
 
 export {bookingArray};
+
+
+
+const cardTemplate = document.querySelector('#card');
+const cardTemplateElement = cardTemplate.content.querySelector('.popup');
+
+const cardsArray = [];
+
+bookingArray.forEach((offerData) => {
+    const card = cardTemplateElement.cloneNode(true);
+
+    const offerTitle = card.querySelector('.popup__title');
+    const offerAddress = card.querySelector('.popup__text--address');
+    const offerPrice = card.querySelector('.popup__text--price');
+    const offerType = card.querySelector('.popup__type');
+    const offerCapacity = card.querySelector('.popup__text--capacity');
+    const offerCheckInOut = card.querySelector('.popup__text--time');
+    const offerDesription = card.querySelector('.popup__description');
+    const offerPhotos = card.querySelector('.popup__photos ');
+    const authorAvatar = card.querySelector('.popup__avatar');
+
+    offerTitle.textContent = offerData.offer.title;
+    offerAddress.textContent = offerData.offer.address;
+    offerPrice.textContent = offerData.price + ' ₽/ночь';
+    
+    switch (offerData.type) {
+        case 'flat':
+            offerType.textContent = 'Квартира';
+        break;
+        case 'bungalow':
+            offerType.textContent = 'Бунгало';
+        break;
+        case 'house':
+            offerType.textContent = 'Дом';
+        break;
+        case 'palace':
+            offerType.textContent = 'Дворец';
+        case 'hotel':
+            offerType.textContent = 'Отель';
+        break;
+        default:
+            offerType.textContent = 'Непонятно!';
+      }
+    
+    let roomText = '';
+    switch (offerData.rooms) {
+        case 1:
+            roomText = 'комната';
+        break;
+        case 2:
+        case 3:
+        case 4:
+            roomText = 'комнаты';
+        break;
+        default: 
+            roomText = 'комнат';
+    }
+    let guestText = ''
+    switch (offerData.guests) {
+        case 1:
+            guestText = 'гостя';
+        break;
+        default: 
+            guestText = 'гостей';
+    }
+    offerCapacity.textContent = offerData.rooms + ' ' + roomText + ' для ' + offerData.guests + ' ' + guestText;
+    offerCheckInOut.textContent = 'Заезд после ' + offerData.checkIn + ' , выезд до ' + offerData.checkOut;
+    
+    const offerFeaturesList = card.querySelector('.popup__features');
+    const offerFeatureElements = card.querySelectorAll('.popup__feature');
+    const offerFeatureModifier = offerData.features.map((feature) => 'popup__feature--' + feature)
+    offerFeatureElements.forEach((feature) => {
+        if (!offerFeatureModifier.includes(feature.classList[1])) {
+            feature.remove();
+        }
+    })
+
+    offerData.description ? offerDesription.textContent = offerData.description : offerDesription.remove();
+    
+    const offerImgElement = offerPhotos.querySelector('.popup__photo');
+    offerPhotos.innerHTML = '';
+    offerData.photos.forEach((img) => {
+        const photo = offerImgElement.cloneNode();
+        photo.src = img;
+        offerPhotos.appendChild(photo);
+    })
+
+    authorAvatar.src = offerData.author.avatar;
+
+    cardsArray.push(card);
+})
+
+
+
+export {cardsArray};
