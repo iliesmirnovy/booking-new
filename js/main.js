@@ -8,3 +8,4 @@ mapCanvas.appendChild(cardsArray[1]);
 
 pageInactive();
 pageActive();
+

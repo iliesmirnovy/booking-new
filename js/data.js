@@ -25,7 +25,7 @@ function createBookingObject() {
 
 
     bookingObject.author = {
-        avatar: 'img/avatars/user' + avatarInt() + '.png',
+        avatar: `img/avatars/user${avatarInt()}.png`,
     }
 
     bookingObject.price = getRandomIntFromRange(0, BOOKING_MAX_PRICE);
@@ -78,7 +78,7 @@ bookingArray.forEach((offerData) => {
 
     offerTitle.textContent = offerData.offer.title;
     offerAddress.textContent = offerData.offer.address;
-    offerPrice.textContent = offerData.price + ' ₽/ночь';
+    offerPrice.textContent = `${offerData.price} ₽/ночь`;
     
     switch (offerData.type) {
         case 'flat':
@@ -120,8 +120,8 @@ bookingArray.forEach((offerData) => {
         default: 
             guestText = 'гостей';
     }
-    offerCapacity.textContent = offerData.rooms + ' ' + roomText + ' для ' + offerData.guests + ' ' + guestText;
-    offerCheckInOut.textContent = 'Заезд после ' + offerData.checkIn + ' , выезд до ' + offerData.checkOut;
+    offerCapacity.textContent = `${offerData.rooms} ${roomText} для ${offerData.guests} ${guestText}`;
+    offerCheckInOut.textContent = `Заезд после ${offerData.checkIn}, выезд до ${offerData.checkOut}`;
     
     const offerFeaturesList = card.querySelector('.popup__features');
     const offerFeatureElements = card.querySelectorAll('.popup__feature');
@@ -149,4 +149,4 @@ bookingArray.forEach((offerData) => {
 
 
 
-export {cardsArray};
+export { cardsArray };
