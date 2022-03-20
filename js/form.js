@@ -10,11 +10,12 @@ const adFormInputs = adForm.querySelectorAll('fieldset');
 const adFormTitle = adForm.querySelector('#title');
 const adFormType = adForm.querySelector('#type');
 const adFormPrice = adForm.querySelector('#price');
-const roomQuantity = adForm.querySelector('#room_number')
-const guestsQuantity = adForm.querySelector('#capacity')
-const adFormTimeIn = adForm.querySelector('#timein')
-const adFormTimeOut = adForm.querySelector('#timeout')
-const adFormSubmit = adForm.querySelector('.ad-form__submit')
+const roomQuantity = adForm.querySelector('#room_number');
+const guestsQuantity = adForm.querySelector('#capacity');
+const adFormTimeIn = adForm.querySelector('#timein');
+const adFormTimeOut = adForm.querySelector('#timeout');
+const fillAdFormAddress = adForm.querySelector('#address');
+const adFormSubmit = adForm.querySelector('.ad-form__submit');
 
 const filterForm = document.querySelector('.map__filters');
 
@@ -141,3 +142,5 @@ function checkAdForm() {
     })
 }
 checkAdForm();
+
+function fillAdFormAdress() {};
