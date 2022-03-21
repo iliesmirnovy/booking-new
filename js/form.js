@@ -15,7 +15,6 @@ const guestsQuantity = adForm.querySelector('#capacity');
 const adFormTimeIn = adForm.querySelector('#timein');
 const adFormTimeOut = adForm.querySelector('#timeout');
 const fillAdFormAddress = adForm.querySelector('#address');
-const adFormSubmit = adForm.querySelector('.ad-form__submit');
 
 const filterForm = document.querySelector('.map__filters');
 
@@ -143,4 +142,6 @@ function checkAdForm() {
 }
 checkAdForm();
 
-function fillAdFormAdress() {};
+
+
+export { fillAdFormAddress };
