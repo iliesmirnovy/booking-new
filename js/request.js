@@ -1,38 +1,12 @@
+import {createPins, createPinsPopup} from './map.js';
 
-
-
-
-
-
-
-
-
-/*
-console.log('Модуль request подключен');
-
-const createRequest = (onSuccess, onError) => () => {
-    const serverUrl = 'https://25.javascript.pages.academy/keksobooking/data';
-    fetch(serverUrl, {
-        method: 'GET',
-        credentials: 'same-origin',
-        },
-    )
-    .then((response) => {
-        if (response.ok) {
-            return response.json()
-        }
-
-        throw new Error(`${response.status}, ${response.statusText}`)
-    })
+function getMapData() {
+    fetch('https://25.javascript.pages.academy/keksobooking/data')
+    .then((response) => response.json())
     .then((data) => {
-        onSuccess(data);
-    })
-    .catch((err) => {
-        onError(err);
+        createPinsPopup(data.slice(0, 10));
+        createPins(data.slice(0, 10));
     })
 }
 
-
-export {createRequest}
-
-*/
+getMapData();

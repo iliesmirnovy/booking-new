@@ -4,10 +4,10 @@ const HOTEL_MIN_PRICE = 3000;
 const HOUSE_MIN_PRICE = 5000;
 const PALACE_MIN_PRICE = 10000;
 const RENT_MAX_PRICE = 1000000;
+const ESCAPE_KEY = 27;
 
 const adForm = document.querySelector('.ad-form');
 const adFormInputs = adForm.querySelectorAll('fieldset'); 
-const adFormTitle = adForm.querySelector('#title');
 const adFormType = adForm.querySelector('#type');
 const adFormPrice = adForm.querySelector('#price');
 const roomQuantity = adForm.querySelector('#room_number');
@@ -118,30 +118,62 @@ roomQuantity.addEventListener('change', () => {
     setRoomAndGuests();
 })
 
-function checkFormTitle() {
-    if (adFormTitle.validity.valueMissing) {
-        adFormTitle.setCustomValidity('Обязательное поле');
-    } else if (adFormTitle.validity.tooLong) {
-        adFormTitle.setCustomValidity(`Максимальная длина названия — 100 символов. Сейчас длина — ${adFormTitle.value.length}`);
-        } else if (adFormTitle.value.length < 30) {
-            adFormTitle.setCustomValidity(`Минимальная длина названия — 30 символов. Сейчас длина — ${adFormTitle.value.length}`)
-        } else { 
-            return true}
+
+function closePopup(popup) {
+    popup.remove();
 }
-function checkAdForm() {
-    adForm.addEventListener('submit', (evt) => {
-        if (checkFormTitle()) {
-            evt.preventDefault();
-            console.log('можно отправлять');
-        } else {
-            evt.preventDefault();
-            console.log('нельзя отправлять');
+
+
+
+function adFormSendSuccess(){
+    const successMessageTemplate = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+    const successMessage = document.body.appendChild(successMessageTemplate);
+    successMessage;
+    window.addEventListener('keydown', (evt) => {
+        if (evt.keyCode === ESCAPE_KEY) {
+            closePopup(successMessage);
         }
-        
+    })
+    successMessage.addEventListener('click', () => {
+        closePopup(successMessage);
     })
 }
-checkAdForm();
 
+function adFormSendFail(){
+    const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+    const errorMessage = document.body.appendChild(errorMessageTemplate);
+    errorMessage;
+    window.addEventListener('keydown', (evt) => {
+        if (evt.keyCode === ESCAPE_KEY) {
+            closePopup(errorMessage);
+        }
+    })
+    errorMessage.addEventListener('click', () => {
+        closePopup(errorMessage);
+    })
+}
 
+const setUserFormSubmit = (onSuccess, onFail) => {
+    adForm.addEventListener('submit', (evt) => {
+        evt.preventDefault();
+        const formData = new FormData(evt.target);
+    
+        fetch('https://24.javascript.pages.academy/keksobooking', 
+            {
+            method: 'POST',
+            body: formData,
+            },
+        )
+        .then(() => onSuccess())
+        .then(() => adForm.reset())
+    })
+}
+
+setUserFormSubmit(adFormSendSuccess, adFormSendFail);
+
+const resetFormButton = adForm.querySelector('.ad-form__reset');
+resetFormButton.addEventListener('click', () => {
+    adForm.reset();
+})
 
 export { fillAdFormAddress };
