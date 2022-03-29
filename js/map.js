@@ -54,7 +54,6 @@ function closeOfferPopupOnFilter() {
     filtersForm.addEventListener('change', (evt) => {
         closeOfferPopupOnFilter();
         getMapData();
-        console.log(evt.target);
     })
 })();
 
